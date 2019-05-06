@@ -104,17 +104,17 @@ public class Sudoku extends LatinSquare implements Serializable {
 
 	}
 
-	private Sudoku() { //-----------check
-		eGameDifficulty = pkgEnum.eGameDifficulty.EASY;
+	private Sudoku() {
+		this.eGameDifficulty = eGameDifficulty.EASY;
 	}
 
 	public Sudoku(int iSize, eGameDifficulty eGD) throws Exception {
 		this(iSize);
-		eGameDifficulty = eGD;
+		this.eGameDifficulty = eGD;
 		RemoveCells();
 	}
 
-	private void SetRemainingCells() { //-----------check
+	private void SetRemainingCells() {
 		for (int iRow = 0; iRow < iSize; iRow++) {
 			for (int iCol = 0; iCol < iSize; iCol++) {
 				SudokuCell c = new SudokuCell(iRow, iCol);
@@ -125,21 +125,35 @@ public class Sudoku extends LatinSquare implements Serializable {
 	}
 
 	private static int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
-		return 1;
+		int iPossibleValues = 1;
+		/** Multiply all the remaining values size **/
+		for (int iRow = 0; iRow < iSize; iRow++) {
+			for (int iCol = 0; iCol < iSize; iCol++) {
+				SudokuCell c = (SudokuCell) cells.get(Objects.hash(iRow, iCol));
+				iPossibleValues = iPossibleValues * c.getLstValidValues().size();
+			}
+		}
+		return iPossibleValues;
 	}
 
 	private boolean IsDifficultyMet(int iPossibleValues) {
-		if() {
+		/** returns a boolean when the difficulty is met **/
+		if (iPossibleValues > eGameDifficulty.getiDifficulty()) {
 			return true;
 		}
 		return false;
 	}
 
 	private void RemoveCells() {
-		if(!IsDifficultyMet(0)) {
-			int iRow = 0;
-			int iCol = 0;
-			
+		/** Set cells to zero until the games difficulty is met **/
+		int possibleValues = PossibleValuesMultiplier(cells);
+		while (!IsDifficultyMet(possibleValues)) {
+			/**
+			 * generate 2 random numbers between 0-8 and set that row column to 0
+			 */
+			Random rand = new Random();
+			int iRow = rand.nextInt(9);
+			int iCol = rand.nextInt(9);
 			getPuzzle()[iRow][iCol] = 0;
 		}
 	}
@@ -644,7 +658,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		public ArrayList<Integer> getLstValidValues() {
 			return lstValidValues;
 		}
-		
+
 		public ArrayList<Integer> getLstRemainingValidValues() {
 			return lstRemainingValidValues;
 		}
@@ -652,7 +666,7 @@ public class Sudoku extends LatinSquare implements Serializable {
 		public void setlstValidValues(HashSet<Integer> hsValidValues) {
 			lstValidValues = new ArrayList<Integer>(hsValidValues);
 		}
-		
+
 		public void setlstRemainingValidValues(HashSet<Integer> hsRemainingValidValues) {
 			lstValidValues = new ArrayList<Integer>(hsRemainingValidValues);
 		}
