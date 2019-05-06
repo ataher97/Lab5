@@ -26,7 +26,7 @@ import pkgHelper.PuzzleViolation;
  */
 public class Sudoku extends LatinSquare implements Serializable {
 
-	private eGameDifficulty eGameDifficulty;
+	eGameDifficulty eGameDifficulty;
 
 	/**
 	 * 
@@ -124,13 +124,14 @@ public class Sudoku extends LatinSquare implements Serializable {
 		}
 	}
 
-	private static int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
+	private int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
 		int iPossibleValues = 1;
+		SetRemainingCells();
 		/** Multiply all the remaining values size **/
 		for (int iRow = 0; iRow < iSize; iRow++) {
 			for (int iCol = 0; iCol < iSize; iCol++) {
 				SudokuCell c = (SudokuCell) cells.get(Objects.hash(iRow, iCol));
-				iPossibleValues = iPossibleValues * c.getLstValidValues().size();
+				iPossibleValues = iPossibleValues * c.getLstRemainingValidValues().size();
 			}
 		}
 		return iPossibleValues;
