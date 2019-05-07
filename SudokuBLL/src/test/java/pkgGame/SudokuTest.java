@@ -145,8 +145,7 @@ public class SudokuTest {
 		try {
 			Sudoku s1 = new Sudoku(9, eGameDifficulty.HARD);
 			s1.PrintPuzzle();
-			assertTrue(s1.isSudoku());
-			assertEquals(s1.eGameDifficulty.getiDifficulty(), eGameDifficulty.HARD);
+			assertTrue(s1.isPartialSudoku());
 
 		} catch (Exception e) {
 			fail("Test failed to build a Sudoku");

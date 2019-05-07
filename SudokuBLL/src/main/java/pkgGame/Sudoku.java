@@ -26,7 +26,7 @@ import pkgHelper.PuzzleViolation;
  */
 public class Sudoku extends LatinSquare implements Serializable {
 
-	eGameDifficulty eGameDifficulty;
+	private eGameDifficulty eGameDifficulty;
 
 	/**
 	 * 
@@ -114,37 +114,6 @@ public class Sudoku extends LatinSquare implements Serializable {
 		RemoveCells();
 	}
 
-	private void SetRemainingCells() {
-		for (int iRow = 0; iRow < iSize; iRow++) {
-			for (int iCol = 0; iCol < iSize; iCol++) {
-				SudokuCell c = new SudokuCell(iRow, iCol);
-				c.setlstRemainingValidValues(getAllValidCellValues(iCol, iRow));
-				cells.put(c.hashCode(), c);
-			}
-		}
-	}
-
-	private int PossibleValuesMultiplier(HashMap<Integer, SudokuCell> cells) {
-		int iPossibleValues = 1;
-		SetRemainingCells();
-		/** Multiply all the remaining values size **/
-		for (int iRow = 0; iRow < iSize; iRow++) {
-			for (int iCol = 0; iCol < iSize; iCol++) {
-				SudokuCell c = (SudokuCell) cells.get(Objects.hash(iRow, iCol));
-				iPossibleValues = iPossibleValues * c.getLstRemainingValidValues().size();
-			}
-		}
-		return iPossibleValues;
-	}
-
-	private boolean IsDifficultyMet(int iPossibleValues) {
-		/** returns a boolean when the difficulty is met **/
-		if (iPossibleValues > eGameDifficulty.getiDifficulty()) {
-			return true;
-		}
-		return false;
-	}
-
 	private void RemoveCells() {
 		/** Set cells to zero until the games difficulty is met **/
 		int possibleValues = PossibleValuesMultiplier(cells);
@@ -156,7 +125,42 @@ public class Sudoku extends LatinSquare implements Serializable {
 			int iRow = rand.nextInt(9);
 			int iCol = rand.nextInt(9);
 			getPuzzle()[iRow][iCol] = 0;
+			possibleValues = PossibleValuesMultiplier(cells);
 		}
+	}
+
+	private boolean IsDifficultyMet(int iPossibleValues) {
+		/** returns a boolean when the difficulty is met **/
+		if (iPossibleValues > eGameDifficulty.getiDifficulty()) {
+			return true;
+		}
+		return false;
+	}
+
+	private void SetRemainingCells() {
+		/** set lst remaining values unshuffled **/
+		for (int iRow = 0; iRow < iSize; iRow++) {
+			for (int iCol = 0; iCol < iSize; iCol++) {
+				SudokuCell c = new SudokuCell(iRow, iCol);
+				c.setlstRemainingValidValues(getAllValidCellValues(iCol, iRow));
+				cells.put(c.hashCode(), c);
+			}
+		}
+	}
+
+	private int PossibleValuesMultiplier(java.util.HashMap<java.lang.Integer, Sudoku.SudokuCell> cells) {
+		SetRemainingCells();
+		int iPossibleValues = 1;
+		/** Multiply all the remaining values size **/
+		for (int iRow = 0; iRow < iSize; iRow++) {
+			for (int iCol = 0; iCol < iSize; iCol++) {
+				SudokuCell c = (SudokuCell) cells.get(Objects.hash(iRow, iCol));
+				if (c.getLstValidValues().size() != 0) {
+					iPossibleValues = iPossibleValues * c.getLstValidValues().size();
+				}
+			}
+		}
+		return iPossibleValues;
 	}
 
 	/**
