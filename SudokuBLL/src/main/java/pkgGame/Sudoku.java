@@ -26,7 +26,7 @@ import pkgHelper.PuzzleViolation;
  */
 public class Sudoku extends LatinSquare implements Serializable {
 
-	private eGameDifficulty eGameDifficulty;
+	public eGameDifficulty eGameDifficulty;
 
 	/**
 	 * 

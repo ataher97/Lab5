@@ -5,10 +5,10 @@ import java.util.Map;
 
 public enum eGameDifficulty {
 	EASY(100), MEDIUM(500), HARD(1000);
-	private final int iDifficulty;
 	
-	private static final Map<Integer, eGameDifficulty> lookup = new HashMap<Integer, eGameDifficulty>();
-
+	private final int iDifficulty;
+	public static final Map<Integer, eGameDifficulty> lookup = new HashMap<Integer, eGameDifficulty>();
+	
 	private eGameDifficulty(int iDifficulty) {
 		this.iDifficulty = iDifficulty;
 	}
@@ -18,6 +18,11 @@ public enum eGameDifficulty {
 	}
 	
 	public static eGameDifficulty get(int iDifficulty) {
+		
+		for (eGameDifficulty eGD : eGameDifficulty.values()) {
+			lookup.put(eGD.iDifficulty, eGD);
+		}
+		
 		if(iDifficulty < 100) {
 			return null;
 		}

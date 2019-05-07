@@ -123,7 +123,7 @@ public class SudokuTest {
 			fail("Test failed to build a Sudoku");
 		}
 
-	}*/
+	}
 
 
 	@Test
@@ -137,21 +137,45 @@ public class SudokuTest {
 		} catch (Exception e) {
 			fail("Test failed to build a Sudoku");
 		}
-	}
+	}*/
 	
 	@Test
-	public void Sudoku_FullPuzzle_Hard1()
-	{
+	public void Sudoku_FullPuzzle_Easy1() {
 		try {
-			Sudoku s1 = new Sudoku(9, eGameDifficulty.HARD);
+			Sudoku s1 = new Sudoku(9, eGameDifficulty.EASY);
 			s1.PrintPuzzle();
 			assertTrue(s1.isPartialSudoku());
+			assertTrue(s1.eGameDifficulty.get(150) == eGameDifficulty.EASY);
 
 		} catch (Exception e) {
 			fail("Test failed to build a Sudoku");
 		}
 	}
 
+	@Test
+	public void Sudoku_FullPuzzle_Medium1() {
+		try {
+			Sudoku s1 = new Sudoku(9, eGameDifficulty.MEDIUM);
+			s1.PrintPuzzle();
+			assertTrue(s1.isPartialSudoku());
+			assertTrue(s1.eGameDifficulty.get(500) == eGameDifficulty.MEDIUM);
 
+		} catch (Exception e) {
+			fail("Test failed to build a Sudoku");
+		}
+	}
+
+	@Test
+	public void Sudoku_FullPuzzle_Hard1() {
+		try {
+			Sudoku s1 = new Sudoku(9, eGameDifficulty.HARD);
+			s1.PrintPuzzle();
+			assertTrue(s1.isPartialSudoku());
+			assertTrue(s1.eGameDifficulty.get(1000) == eGameDifficulty.HARD);
+
+		} catch (Exception e) {
+			fail("Test failed to build a Sudoku");
+		}
+	}
 
 }
